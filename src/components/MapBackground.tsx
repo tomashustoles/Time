@@ -94,11 +94,29 @@ export function MapBackground() {
 
     map.on('load', () => {
       setMapLoaded(true);
+      // Force resize after load to ensure proper dimensions
+      setTimeout(() => {
+        map.resize();
+      }, 100);
     });
+
+    // Handle window resize
+    const handleResize = () => {
+      if (mapRef.current) {
+        mapRef.current.resize();
+      }
+    };
+    window.addEventListener('resize', handleResize);
 
     mapRef.current = map;
 
+    // Initial resize after a short delay to ensure container is rendered
+    setTimeout(() => {
+      map.resize();
+    }, 50);
+
     return () => {
+      window.removeEventListener('resize', handleResize);
       map.remove();
       mapRef.current = null;
     };
@@ -287,6 +305,8 @@ export function MapBackground() {
         className="fixed inset-0 pointer-events-none"
         style={{
           zIndex: 'var(--z-background)',
+          width: '100%',
+          height: '100%',
         }}
         aria-hidden="true"
       />

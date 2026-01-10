@@ -19,6 +19,7 @@ const defaultSettings: Settings = {
     longitude: -74.006,
     name: 'New York',
   },
+  useLocalWeather: true, // Use geolocation by default
   newsSource: 'general',
   theme: 'light',
   activeGradient: 1,
@@ -67,6 +68,7 @@ interface SettingsContextType {
   setTemperatureUnit: (unit: TemperatureUnit) => void;
   setTimezone: (timezone: string) => void;
   setWeatherLocation: (location: Settings['weatherLocation']) => void;
+  setUseLocalWeather: (useLocal: boolean) => void;
   setNewsSource: (source: string) => void;
   setTheme: (theme: ThemeName) => void;
   setActiveGradient: (gradient: 1 | 2) => void;
@@ -104,7 +106,12 @@ export function SettingsProvider({ children }: SettingsProviderProps) {
 
   const setWeatherLocation = useCallback(
     (location: Settings['weatherLocation']) =>
-      updateSettings({ weatherLocation: location }),
+      updateSettings({ weatherLocation: location, useLocalWeather: false }),
+    [updateSettings]
+  );
+
+  const setUseLocalWeather = useCallback(
+    (useLocal: boolean) => updateSettings({ useLocalWeather: useLocal }),
     [updateSettings]
   );
 
@@ -136,6 +143,7 @@ export function SettingsProvider({ children }: SettingsProviderProps) {
         setTemperatureUnit,
         setTimezone,
         setWeatherLocation,
+        setUseLocalWeather,
         setNewsSource,
         setTheme,
         setActiveGradient,

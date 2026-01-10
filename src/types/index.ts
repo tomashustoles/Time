@@ -18,6 +18,7 @@ export interface Settings {
     longitude: number;
     name: string;
   };
+  useLocalWeather: boolean;
   newsSource: string;
   theme: ThemeName;
   activeGradient: 1 | 2;

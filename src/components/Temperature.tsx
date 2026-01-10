@@ -9,7 +9,7 @@ interface TemperatureProps {
 }
 
 export function Temperature({ className }: TemperatureProps) {
-  const { data, loading, error } = useWeather();
+  const { data, loading, error, locationName } = useWeather();
   const { settings } = useSettings();
 
   // Loading state
@@ -17,6 +17,7 @@ export function Temperature({ className }: TemperatureProps) {
     return (
       <div className={cn('flex flex-col items-end', className)}>
         <div className="h-8 w-16 bg-muted animate-pulse rounded" />
+        <span className="text-foreground/40 text-xs mt-1">{locationName}</span>
       </div>
     );
   }
@@ -68,7 +69,7 @@ export function Temperature({ className }: TemperatureProps) {
           'hidden md:block'
         )}
       >
-        {settings.weatherLocation.name}
+        {locationName}
       </span>
     </div>
   );

@@ -1,5 +1,6 @@
 import { useSettings, locationPresets, timezonePresets, newsSourcePresets } from '../providers/SettingsProvider';
 import { useTheme } from '../providers/ThemeProvider';
+import { useWeather } from '../hooks/useWeather';
 import { cn } from '../lib/utils';
 import { Icon } from './ui/Icon';
 
@@ -50,10 +51,12 @@ export function SettingsPanel() {
     setTemperatureUnit,
     setTimezone,
     setWeatherLocation,
+    setUseLocalWeather,
     setNewsSource,
     setActiveGradient,
   } = useSettings();
   const { theme, setTheme, themes } = useTheme();
+  const { isUsingLocalWeather, geolocationError } = useWeather();
 
   return (
     <div className="py-2">
@@ -104,11 +107,35 @@ export function SettingsPanel() {
 
       {/* Weather Location */}
       <SettingsSection title="Weather Location">
-        <div className="space-y-1 max-h-40 overflow-y-auto scrollbar-hide">
+        <div className="space-y-1 max-h-48 overflow-y-auto scrollbar-hide">
+          {/* Use My Location option */}
+          <button
+            onClick={() => setUseLocalWeather(true)}
+            className={cn(
+              'flex items-center justify-between w-full px-3 py-2 rounded-lg',
+              'text-left text-sm font-medium',
+              'transition-all duration-fast',
+              settings.useLocalWeather
+                ? 'bg-foreground text-background'
+                : 'bg-transparent text-foreground hover:bg-foreground/10'
+            )}
+          >
+            <div className="flex items-center gap-2">
+              <Icon name="globe" size={16} />
+              <span>Use My Location</span>
+            </div>
+            {settings.useLocalWeather && !geolocationError && <Icon name="check" size={16} />}
+            {geolocationError && (
+              <span className="text-xs text-accent">{geolocationError}</span>
+            )}
+          </button>
+          
+          <div className="h-px bg-border my-2" />
+          
           {locationPresets.map((loc) => (
             <OptionButton
               key={loc.name}
-              selected={settings.weatherLocation.name === loc.name}
+              selected={!settings.useLocalWeather && settings.weatherLocation.name === loc.name}
               onClick={() => setWeatherLocation(loc)}
             >
               {loc.name}

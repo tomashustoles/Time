@@ -9,6 +9,9 @@ export interface Theme {
   label: string;
 }
 
+// Animation style types
+export type AnimationStyle = 'slow' | 'medium' | 'fast' | 'waves' | 'spotlight' | 'none';
+
 // Settings state
 export interface Settings {
   temperatureUnit: TemperatureUnit;
@@ -22,6 +25,7 @@ export interface Settings {
   newsSource: string;
   theme: ThemeName;
   activeGradient: 1 | 2;
+  animationStyle: AnimationStyle;
 }
 
 // Weather data

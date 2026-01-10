@@ -1,4 +1,4 @@
-import { useSettings, locationPresets, timezonePresets, newsSourcePresets } from '../providers/SettingsProvider';
+import { useSettings, locationPresets, timezonePresets, newsSourcePresets, animationStylePresets } from '../providers/SettingsProvider';
 import { useTheme } from '../providers/ThemeProvider';
 import { useWeather } from '../hooks/useWeather';
 import { cn } from '../lib/utils';
@@ -54,6 +54,7 @@ export function SettingsPanel() {
     setUseLocalWeather,
     setNewsSource,
     setActiveGradient,
+    setAnimationStyle,
   } = useSettings();
   const { theme, setTheme, themes } = useTheme();
   const { geolocationError } = useWeather();
@@ -182,13 +183,13 @@ export function SettingsPanel() {
         </div>
       </SettingsSection>
 
-      {/* Gradient */}
-      <SettingsSection title="Background Gradient">
+      {/* Gradient Colors */}
+      <SettingsSection title="Gradient Colors">
         <div className="flex gap-3">
           <button
             onClick={() => setActiveGradient(1)}
             className={cn(
-              'flex-1 h-16 rounded-xl font-medium text-sm',
+              'flex-1 h-14 rounded-xl font-medium text-sm',
               'transition-all duration-fast',
               'relative overflow-hidden',
               settings.activeGradient === 1
@@ -210,7 +211,7 @@ export function SettingsPanel() {
           <button
             onClick={() => setActiveGradient(2)}
             className={cn(
-              'flex-1 h-16 rounded-xl font-medium text-sm',
+              'flex-1 h-14 rounded-xl font-medium text-sm',
               'transition-all duration-fast',
               'relative overflow-hidden',
               settings.activeGradient === 2
@@ -229,6 +230,36 @@ export function SettingsPanel() {
             />
             <span className="relative text-foreground font-semibold drop-shadow-sm">Warm</span>
           </button>
+        </div>
+      </SettingsSection>
+
+      {/* Animation Style */}
+      <SettingsSection title="Animation Style">
+        <div className="grid grid-cols-2 gap-2">
+          {animationStylePresets.map((style) => (
+            <button
+              key={style.value}
+              onClick={() => setAnimationStyle(style.value)}
+              className={cn(
+                'flex flex-col items-start px-3 py-2 rounded-lg',
+                'text-left text-sm',
+                'transition-all duration-fast',
+                settings.animationStyle === style.value
+                  ? 'bg-foreground text-background'
+                  : 'bg-transparent text-foreground hover:bg-foreground/10'
+              )}
+            >
+              <span className="font-medium">{style.label}</span>
+              <span className={cn(
+                'text-xs',
+                settings.animationStyle === style.value
+                  ? 'text-background/70'
+                  : 'text-foreground/50'
+              )}>
+                {style.description}
+              </span>
+            </button>
+          ))}
         </div>
       </SettingsSection>
     </div>

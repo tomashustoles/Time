@@ -5,7 +5,7 @@ import {
   useCallback,
   type ReactNode,
 } from 'react';
-import type { Settings, TemperatureUnit, ThemeName } from '../types';
+import type { Settings, TemperatureUnit, ThemeName, AnimationStyle } from '../types';
 import { storage, getUserTimezone } from '../lib/utils';
 
 const SETTINGS_STORAGE_KEY = 'time-settings';
@@ -23,7 +23,18 @@ const defaultSettings: Settings = {
   newsSource: 'general',
   theme: 'light',
   activeGradient: 1,
+  animationStyle: 'slow',
 };
+
+// Animation style presets
+export const animationStylePresets = [
+  { value: 'slow' as const, label: 'Slow', description: 'Gentle, calm motion' },
+  { value: 'medium' as const, label: 'Medium', description: 'Balanced flow' },
+  { value: 'fast' as const, label: 'Fast', description: 'Dynamic movement' },
+  { value: 'waves' as const, label: 'Waves', description: 'Flowing wave pattern' },
+  { value: 'spotlight' as const, label: 'Spotlight', description: 'Light beam effect' },
+  { value: 'none' as const, label: 'Static', description: 'No animation' },
+];
 
 // Preset locations for weather
 export const locationPresets = [
@@ -72,6 +83,7 @@ interface SettingsContextType {
   setNewsSource: (source: string) => void;
   setTheme: (theme: ThemeName) => void;
   setActiveGradient: (gradient: 1 | 2) => void;
+  setAnimationStyle: (style: AnimationStyle) => void;
   resetSettings: () => void;
 }
 
@@ -130,6 +142,11 @@ export function SettingsProvider({ children }: SettingsProviderProps) {
     [updateSettings]
   );
 
+  const setAnimationStyle = useCallback(
+    (style: AnimationStyle) => updateSettings({ animationStyle: style }),
+    [updateSettings]
+  );
+
   const resetSettings = useCallback(() => {
     setSettings(defaultSettings);
     storage.set(SETTINGS_STORAGE_KEY, defaultSettings);
@@ -147,6 +164,7 @@ export function SettingsProvider({ children }: SettingsProviderProps) {
         setNewsSource,
         setTheme,
         setActiveGradient,
+        setAnimationStyle,
         resetSettings,
       }}
     >

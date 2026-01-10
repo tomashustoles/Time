@@ -1,4 +1,5 @@
 import { useTime } from '../hooks/useTime';
+import { useSettings } from '../providers/SettingsProvider';
 import { cn } from '../lib/utils';
 
 interface ClockProps {
@@ -9,6 +10,19 @@ interface ClockProps {
 
 export function Clock({ className, showSeconds = true, showDate = true }: ClockProps) {
   const { hours, minutes, seconds, dateString } = useTime();
+  const { settings } = useSettings();
+  
+  // Apply realistic shadow effect when spotlight animation is active
+  const isSpotlight = settings.animationStyle === 'spotlight';
+  
+  const shadowStyle = isSpotlight ? {
+    textShadow: `
+      2px 2px 4px rgba(0,0,0,0.3),
+      4px 4px 8px rgba(0,0,0,0.2),
+      8px 8px 16px rgba(0,0,0,0.15),
+      -1px -1px 2px rgba(255,255,255,0.1)
+    `,
+  } : {};
 
   return (
     <div
@@ -18,7 +32,7 @@ export function Clock({ className, showSeconds = true, showDate = true }: ClockP
       )}
     >
       {/* Time display */}
-      <div className="flex items-baseline">
+      <div className="flex items-baseline" style={shadowStyle}>
         <span
           className={cn(
             'font-mono font-bold tracking-tight text-foreground',

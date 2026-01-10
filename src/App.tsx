@@ -8,7 +8,7 @@ import { Clock } from './components/Clock';
 import { AppIdentity } from './components/AppIdentity';
 import { Temperature } from './components/Temperature';
 import { Headlines } from './components/Headlines';
-import { MenuButton } from './components/MenuButton';
+import { Markets } from './components/Markets';
 import { SettingsPanel } from './components/SettingsPanel';
 import { Sheet } from './components/ui/Sheet';
 
@@ -22,9 +22,9 @@ function AppContent() {
 
       {/* Main layout */}
       <GridLayout>
-        {/* Top Left - App Identity */}
+        {/* Top Left - App Identity (click to open settings) */}
         <Corner position="top-left">
-          <AppIdentity />
+          <AppIdentity onSettingsClick={() => setSettingsOpen(true)} />
         </Corner>
 
         {/* Top Right - Temperature */}
@@ -42,12 +42,9 @@ function AppContent() {
           <Headlines />
         </Corner>
 
-        {/* Bottom Right - Menu Button */}
+        {/* Bottom Right - Markets (BTC & S&P 500) */}
         <Corner position="bottom-right">
-          <MenuButton
-            open={settingsOpen}
-            onClick={() => setSettingsOpen(!settingsOpen)}
-          />
+          <Markets />
         </Corner>
       </GridLayout>
 

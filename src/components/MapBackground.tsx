@@ -16,7 +16,6 @@ const MAP_STYLES = {
 
 // Wind particle configuration
 const PARTICLE_COUNT = 300;
-const PARTICLE_LINE_LENGTH = 25;
 const PARTICLE_SPEED = 1.5;
 const PARTICLE_LIFE_SPAN = 100;
 

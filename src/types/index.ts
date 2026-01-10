@@ -10,7 +10,7 @@ export interface Theme {
 }
 
 // Animation style types
-export type AnimationStyle = 'slow' | 'medium' | 'fast' | 'waves' | 'spotlight' | 'none';
+export type AnimationStyle = 'slow' | 'medium' | 'fast' | 'waves' | 'spotlight' | 'map' | 'none';
 
 // Settings state
 export interface Settings {

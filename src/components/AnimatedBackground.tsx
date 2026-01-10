@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { useSettings } from '../providers/SettingsProvider';
 import { usePrefersReducedMotion } from '../hooks/useMediaQuery';
+import { MapBackground } from './MapBackground';
 import type { AnimationStyle } from '../types';
 
 /**
@@ -13,6 +14,28 @@ export function AnimatedBackground() {
   const { settings } = useSettings();
   const prefersReducedMotion = usePrefersReducedMotion();
 
+  // If map style is selected, render the MapBackground component
+  if (settings.animationStyle === 'map') {
+    return <MapBackground />;
+  }
+
+  return <GradientBackground settings={settings} prefersReducedMotion={prefersReducedMotion} canvasRef={canvasRef} animationRef={animationRef} />;
+}
+
+/**
+ * Gradient-based animated backgrounds
+ */
+function GradientBackground({ 
+  settings, 
+  prefersReducedMotion, 
+  canvasRef, 
+  animationRef 
+}: { 
+  settings: { activeGradient: 1 | 2; animationStyle: AnimationStyle };
+  prefersReducedMotion: boolean;
+  canvasRef: React.RefObject<HTMLCanvasElement>;
+  animationRef: React.MutableRefObject<number>;
+}) {
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -277,7 +300,7 @@ export function AnimatedBackground() {
       window.removeEventListener('resize', handleResize);
       cancelAnimationFrame(animationRef.current);
     };
-  }, [settings.activeGradient, settings.animationStyle, prefersReducedMotion]);
+  }, [settings.activeGradient, settings.animationStyle, prefersReducedMotion, canvasRef, animationRef]);
 
   return (
     <canvas

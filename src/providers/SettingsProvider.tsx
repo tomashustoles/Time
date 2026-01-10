@@ -33,6 +33,7 @@ export const animationStylePresets = [
   { value: 'fast' as const, label: 'Fast', description: 'Dynamic movement' },
   { value: 'waves' as const, label: 'Waves', description: 'Flowing wave pattern' },
   { value: 'spotlight' as const, label: 'Spotlight', description: 'Light beam effect' },
+  { value: 'map' as const, label: 'Map', description: 'Live map with wind' },
   { value: 'none' as const, label: 'Static', description: 'No animation' },
 ];
 

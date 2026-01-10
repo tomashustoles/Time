@@ -56,7 +56,7 @@ export function SettingsPanel() {
     setActiveGradient,
   } = useSettings();
   const { theme, setTheme, themes } = useTheme();
-  const { isUsingLocalWeather, geolocationError } = useWeather();
+  const { geolocationError } = useWeather();
 
   return (
     <div className="py-2">

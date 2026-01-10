@@ -168,10 +168,6 @@ export function MapBackground() {
         // Get wind direction from noise
         const wind = noise(p.x, p.y, time);
 
-        // Store previous position for line drawing
-        const prevX = p.x;
-        const prevY = p.y;
-
         // Update velocity with some inertia
         p.vx = p.vx * 0.9 + wind.dx * 0.1;
         p.vy = p.vy * 0.9 + wind.dy * 0.1;

@@ -200,10 +200,12 @@ export function SettingsPanel() {
               className="absolute inset-0"
               style={{
                 background:
-                  'linear-gradient(135deg, hsl(220 20% 97%), hsl(260 15% 94%), hsl(280 15% 92%))',
+                  theme === 'dark'
+                    ? 'linear-gradient(135deg, hsl(220 20% 12%), hsl(260 15% 14%), hsl(280 15% 16%))'
+                    : 'linear-gradient(135deg, hsl(220 20% 97%), hsl(260 15% 94%), hsl(280 15% 92%))',
               }}
             />
-            <span className="relative text-foreground/60 font-semibold">Cool</span>
+            <span className="relative text-foreground font-semibold drop-shadow-sm">Cool</span>
           </button>
           <button
             onClick={() => setActiveGradient(2)}
@@ -220,10 +222,12 @@ export function SettingsPanel() {
               className="absolute inset-0"
               style={{
                 background:
-                  'linear-gradient(135deg, hsl(40 30% 96%), hsl(20 25% 93%), hsl(200 20% 91%))',
+                  theme === 'dark'
+                    ? 'linear-gradient(135deg, hsl(40 15% 10%), hsl(20 12% 12%), hsl(200 10% 14%))'
+                    : 'linear-gradient(135deg, hsl(40 30% 96%), hsl(20 25% 93%), hsl(200 20% 91%))',
               }}
             />
-            <span className="relative text-foreground/60 font-semibold">Warm</span>
+            <span className="relative text-foreground font-semibold drop-shadow-sm">Warm</span>
           </button>
         </div>
       </SettingsSection>

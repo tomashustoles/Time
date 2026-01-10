@@ -27,7 +27,10 @@ interface Particle {
   vy: number;
   age: number;
   maxAge: number;
+  trail: { x: number; y: number }[];
 }
+
+const TRAIL_LENGTH = 15;
 
 /**
  * Simplex-like noise function for organic wind movement
@@ -65,13 +68,16 @@ export function MapBackground() {
   const initParticles = (width: number, height: number) => {
     particlesRef.current = [];
     for (let i = 0; i < PARTICLE_COUNT; i++) {
+      const x = Math.random() * width;
+      const y = Math.random() * height;
       particlesRef.current.push({
-        x: Math.random() * width,
-        y: Math.random() * height,
+        x,
+        y,
         vx: 0,
         vy: 0,
         age: Math.random() * PARTICLE_LIFE_SPAN,
         maxAge: PARTICLE_LIFE_SPAN + Math.random() * 50,
+        trail: [{ x, y }],
       });
     }
   };
@@ -169,12 +175,8 @@ export function MapBackground() {
       const width = rect.width;
       const height = rect.height;
 
-      // Fade effect for trails
-      ctx.fillStyle =
-        theme === 'dark'
-          ? 'rgba(10, 10, 10, 0.05)'
-          : 'rgba(250, 250, 250, 0.05)';
-      ctx.fillRect(0, 0, width, height);
+      // Clear canvas completely for transparency
+      ctx.clearRect(0, 0, width, height);
 
       const particles = particlesRef.current;
       const time = timeRef.current;
@@ -194,6 +196,12 @@ export function MapBackground() {
         p.x += p.vx;
         p.y += p.vy;
         p.age++;
+
+        // Add current position to trail
+        p.trail.push({ x: p.x, y: p.y });
+        if (p.trail.length > TRAIL_LENGTH) {
+          p.trail.shift();
+        }
 
         // Reset particle if it goes out of bounds or too old
         if (
@@ -227,32 +235,30 @@ export function MapBackground() {
           p.maxAge = PARTICLE_LIFE_SPAN + Math.random() * 50;
           p.vx = 0;
           p.vy = 0;
+          p.trail = [{ x: p.x, y: p.y }];
           continue;
         }
 
-        // Calculate opacity based on age
+        // Calculate base opacity based on age
         const lifeRatio = p.age / p.maxAge;
-        const opacity = Math.sin(lifeRatio * Math.PI) * 0.6;
+        const baseOpacity = Math.sin(lifeRatio * Math.PI) * 0.7;
 
-        // Draw wind line
-        const lineLength = Math.min(
-          PARTICLE_LINE_LENGTH,
-          Math.sqrt(p.vx * p.vx + p.vy * p.vy) * 10
-        );
-        const angle = Math.atan2(p.vy, p.vx);
-        const tailX = p.x - Math.cos(angle) * lineLength;
-        const tailY = p.y - Math.sin(angle) * lineLength;
-
-        ctx.beginPath();
-        ctx.moveTo(tailX, tailY);
-        ctx.lineTo(p.x, p.y);
-        ctx.strokeStyle =
-          theme === 'dark'
-            ? `rgba(255, 255, 255, ${opacity})`
-            : `rgba(100, 100, 100, ${opacity * 0.7})`;
-        ctx.lineWidth = 1;
-        ctx.lineCap = 'round';
-        ctx.stroke();
+        // Draw trail with fading opacity
+        if (p.trail.length > 1) {
+          for (let j = 1; j < p.trail.length; j++) {
+            const trailOpacity = (j / p.trail.length) * baseOpacity;
+            ctx.beginPath();
+            ctx.moveTo(p.trail[j - 1].x, p.trail[j - 1].y);
+            ctx.lineTo(p.trail[j].x, p.trail[j].y);
+            ctx.strokeStyle =
+              theme === 'dark'
+                ? `rgba(255, 255, 255, ${trailOpacity})`
+                : `rgba(80, 80, 80, ${trailOpacity * 0.8})`;
+            ctx.lineWidth = 1.5;
+            ctx.lineCap = 'round';
+            ctx.stroke();
+          }
+        }
       }
 
       // Update time

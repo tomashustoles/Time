@@ -184,46 +184,46 @@ export function SettingsPanel() {
 
       {/* Gradient */}
       <SettingsSection title="Background Gradient">
-        <div className="flex gap-2">
+        <div className="flex gap-3">
           <button
             onClick={() => setActiveGradient(1)}
             className={cn(
-              'flex-1 py-3 rounded-lg font-medium text-sm',
+              'flex-1 h-16 rounded-xl font-medium text-sm',
               'transition-all duration-fast',
               'relative overflow-hidden',
               settings.activeGradient === 1
                 ? 'ring-2 ring-accent ring-offset-2'
-                : 'ring-1 ring-border'
+                : 'ring-1 ring-border hover:ring-foreground/30'
             )}
           >
             <div
               className="absolute inset-0"
               style={{
                 background:
-                  'linear-gradient(135deg, hsl(220 20% 97%), hsl(260 15% 96%), hsl(280 15% 95%))',
+                  'linear-gradient(135deg, hsl(220 20% 97%), hsl(260 15% 94%), hsl(280 15% 92%))',
               }}
             />
-            <span className="relative text-foreground/70">Cool</span>
+            <span className="relative text-foreground/60 font-semibold">Cool</span>
           </button>
           <button
             onClick={() => setActiveGradient(2)}
             className={cn(
-              'flex-1 py-3 rounded-lg font-medium text-sm',
+              'flex-1 h-16 rounded-xl font-medium text-sm',
               'transition-all duration-fast',
               'relative overflow-hidden',
               settings.activeGradient === 2
                 ? 'ring-2 ring-accent ring-offset-2'
-                : 'ring-1 ring-border'
+                : 'ring-1 ring-border hover:ring-foreground/30'
             )}
           >
             <div
               className="absolute inset-0"
               style={{
                 background:
-                  'linear-gradient(135deg, hsl(40 30% 96%), hsl(20 25% 95%), hsl(200 20% 94%))',
+                  'linear-gradient(135deg, hsl(40 30% 96%), hsl(20 25% 93%), hsl(200 20% 91%))',
               }}
             />
-            <span className="relative text-foreground/70">Warm</span>
+            <span className="relative text-foreground/60 font-semibold">Warm</span>
           </button>
         </div>
       </SettingsSection>

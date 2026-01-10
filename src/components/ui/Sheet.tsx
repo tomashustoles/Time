@@ -80,17 +80,17 @@ export function Sheet({ open, onClose, children, title, className }: SheetProps)
           isMobile && [
             'inset-x-0 bottom-0',
             'rounded-t-2xl',
-            'max-h-[85vh]',
+            'max-h-[90vh]',
             'animate-slide-up',
           ],
 
-          // Desktop: corner overlay
+          // Desktop: top-left corner overlay
           !isMobile && [
-            'bottom-4 right-4 sm:bottom-6 sm:right-6 md:bottom-8 md:right-8',
+            'top-4 left-4 sm:top-6 sm:left-6 md:top-8 md:left-8',
             'w-80 sm:w-96',
-            'max-h-[80vh]',
+            'max-h-[85vh]',
             'rounded-2xl',
-            'animate-fade-in',
+            'animate-slide-down',
           ],
 
           className
@@ -129,7 +129,7 @@ export function Sheet({ open, onClose, children, title, className }: SheetProps)
         )}
 
         {/* Content */}
-        <div className="overflow-y-auto max-h-[calc(85vh-60px)] scrollbar-hide">
+        <div className="overflow-y-auto max-h-[calc(85vh-56px)] scrollbar-hide pb-4">
           {children}
         </div>
 

@@ -55,6 +55,7 @@ export function SettingsPanel() {
     setNewsSource,
     setActiveGradient,
     setAnimationStyle,
+    setShowShadow,
   } = useSettings();
   const { theme, setTheme, themes } = useTheme();
   const { geolocationError } = useWeather();
@@ -162,7 +163,7 @@ export function SettingsPanel() {
 
       {/* Theme */}
       <SettingsSection title="Theme">
-        <div className="flex gap-2">
+        <div className="flex gap-2 mb-3">
           {themes.map((t) => (
             <button
               key={t.name}
@@ -181,6 +182,32 @@ export function SettingsPanel() {
             </button>
           ))}
         </div>
+        
+        {/* Shadow toggle */}
+        <label className="flex items-center justify-between px-3 py-2 rounded-lg hover:bg-foreground/5 cursor-pointer transition-all duration-fast">
+          <span className="text-sm font-medium text-foreground">Text Shadow</span>
+          <div className="relative">
+            <input
+              type="checkbox"
+              checked={settings.showShadow}
+              onChange={(e) => setShowShadow(e.target.checked)}
+              className="sr-only peer"
+            />
+            <div className={cn(
+              'w-10 h-6 rounded-full transition-all duration-fast',
+              'peer-focus-visible:ring-2 peer-focus-visible:ring-accent',
+              settings.showShadow
+                ? 'bg-foreground'
+                : 'bg-foreground/20'
+            )} />
+            <div className={cn(
+              'absolute top-1 left-1 w-4 h-4 rounded-full transition-all duration-fast',
+              settings.showShadow
+                ? 'translate-x-4 bg-background'
+                : 'translate-x-0 bg-foreground/50'
+            )} />
+          </div>
+        </label>
       </SettingsSection>
 
       {/* Gradient Colors */}

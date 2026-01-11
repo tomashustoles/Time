@@ -12,10 +12,8 @@ export function Clock({ className, showSeconds = true, showDate = true }: ClockP
   const { hours, minutes, seconds, dateString } = useTime();
   const { settings } = useSettings();
   
-  // Apply realistic shadow effect when spotlight animation is active
-  const isSpotlight = settings.animationStyle === 'spotlight';
-  
-  const shadowStyle = isSpotlight ? {
+  // Apply realistic shadow effect when shadow setting is enabled
+  const shadowStyle = settings.showShadow ? {
     textShadow: `
       4px 4px 8px rgba(0,0,0,0.5),
       8px 8px 20px rgba(0,0,0,0.45),

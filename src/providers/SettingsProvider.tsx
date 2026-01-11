@@ -24,6 +24,7 @@ const defaultSettings: Settings = {
   theme: 'light',
   activeGradient: 1,
   animationStyle: 'slow',
+  showShadow: false,
 };
 
 // Animation style presets
@@ -85,6 +86,7 @@ interface SettingsContextType {
   setTheme: (theme: ThemeName) => void;
   setActiveGradient: (gradient: 1 | 2) => void;
   setAnimationStyle: (style: AnimationStyle) => void;
+  setShowShadow: (show: boolean) => void;
   resetSettings: () => void;
 }
 
@@ -148,6 +150,11 @@ export function SettingsProvider({ children }: SettingsProviderProps) {
     [updateSettings]
   );
 
+  const setShowShadow = useCallback(
+    (show: boolean) => updateSettings({ showShadow: show }),
+    [updateSettings]
+  );
+
   const resetSettings = useCallback(() => {
     setSettings(defaultSettings);
     storage.set(SETTINGS_STORAGE_KEY, defaultSettings);
@@ -166,6 +173,7 @@ export function SettingsProvider({ children }: SettingsProviderProps) {
         setTheme,
         setActiveGradient,
         setAnimationStyle,
+        setShowShadow,
         resetSettings,
       }}
     >

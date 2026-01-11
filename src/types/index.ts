@@ -26,6 +26,7 @@ export interface Settings {
   theme: ThemeName;
   activeGradient: 1 | 2;
   animationStyle: AnimationStyle;
+  showShadow: boolean;
 }
 
 // Weather data

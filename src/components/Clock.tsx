@@ -17,10 +17,12 @@ export function Clock({ className, showSeconds = true, showDate = true }: ClockP
   
   const shadowStyle = isSpotlight ? {
     textShadow: `
-      2px 2px 4px rgba(0,0,0,0.3),
-      4px 4px 8px rgba(0,0,0,0.2),
-      8px 8px 16px rgba(0,0,0,0.15),
-      -1px -1px 2px rgba(255,255,255,0.1)
+      4px 4px 8px rgba(0,0,0,0.5),
+      8px 8px 20px rgba(0,0,0,0.45),
+      16px 16px 40px rgba(0,0,0,0.4),
+      24px 24px 60px rgba(0,0,0,0.35),
+      40px 40px 80px rgba(0,0,0,0.25),
+      -2px -2px 6px rgba(255,255,255,0.15)
     `,
   } : {};
 

@@ -25,28 +25,30 @@ async function fetchBitcoinPrice(): Promise<number | null> {
 }
 
 /**
- * Fetch S&P 500 price using Alpha Vantage demo or fallback
- * Note: For production, you'd use your own API key
+ * Fetch S&P 500 price using Yahoo Finance via CORS proxy
+ * Uses the SPY ETF as a proxy for S&P 500 index
  */
 async function fetchSP500Price(): Promise<number | null> {
   try {
-    // Try using a free stock quote API
-    // Using Twelve Data free tier (no CORS issues)
-    const response = await fetch(
-      'https://api.twelvedata.com/price?symbol=SPX&apikey=demo'
-    );
+    // Use Yahoo Finance through AllOrigins CORS proxy
+    const yahooUrl = 'https://query1.finance.yahoo.com/v8/finance/chart/SPY?interval=1d&range=1d';
+    const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(yahooUrl)}`;
+    
+    const response = await fetch(proxyUrl);
     
     if (!response.ok) {
       throw new Error(`API error: ${response.status}`);
     }
     
     const data = await response.json();
+    const price = data.chart?.result?.[0]?.meta?.regularMarketPrice;
     
-    if (data.price) {
-      return parseFloat(data.price);
+    if (price && price > 0) {
+      // SPY is approximately 1/10th of S&P 500 index value
+      // Multiply by 10 to approximate the actual S&P 500 index
+      return Math.round(price * 10);
     }
     
-    // Fallback: return null if demo key is rate limited
     return null;
   } catch (error) {
     console.error('Failed to fetch S&P 500 price:', error);

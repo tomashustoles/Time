@@ -24,13 +24,8 @@ export function Clock({ className, showSeconds = true, showDate = true }: ClockP
     `,
   } : {};
 
-  return (
-    <div
-      className={cn(
-        'flex flex-col items-center justify-center select-none',
-        className
-      )}
-    >
+  const clockContent = (
+    <>
       {/* Time display */}
       <div className="flex items-baseline" style={shadowStyle}>
         <span
@@ -95,9 +90,36 @@ export function Clock({ className, showSeconds = true, showDate = true }: ClockP
             'mt-2 sm:mt-3 md:mt-4 lg:mt-6',
             'tracking-wide'
           )}
+          style={shadowStyle}
         >
           {dateString}
         </p>
+      )}
+    </>
+  );
+
+  return (
+    <div
+      className={cn(
+        'flex flex-col items-center justify-center select-none',
+        className
+      )}
+    >
+      {settings.showTimeCard ? (
+        <div
+          className={cn(
+            'flex flex-col items-center justify-center',
+            'px-8 py-6 sm:px-12 sm:py-8 md:px-16 md:py-10 lg:px-20 lg:py-12',
+            'rounded-2xl sm:rounded-3xl',
+            'bg-foreground/5 backdrop-blur-md',
+            'border border-foreground/10',
+            'transition-all duration-slow'
+          )}
+        >
+          {clockContent}
+        </div>
+      ) : (
+        clockContent
       )}
     </div>
   );

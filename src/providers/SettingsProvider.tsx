@@ -25,6 +25,7 @@ const defaultSettings: Settings = {
   activeGradient: 1,
   animationStyle: 'slow',
   showShadow: false,
+  showTimeCard: false,
 };
 
 // Animation style presets
@@ -87,6 +88,7 @@ interface SettingsContextType {
   setActiveGradient: (gradient: 1 | 2) => void;
   setAnimationStyle: (style: AnimationStyle) => void;
   setShowShadow: (show: boolean) => void;
+  setShowTimeCard: (show: boolean) => void;
   resetSettings: () => void;
 }
 
@@ -155,6 +157,11 @@ export function SettingsProvider({ children }: SettingsProviderProps) {
     [updateSettings]
   );
 
+  const setShowTimeCard = useCallback(
+    (show: boolean) => updateSettings({ showTimeCard: show }),
+    [updateSettings]
+  );
+
   const resetSettings = useCallback(() => {
     setSettings(defaultSettings);
     storage.set(SETTINGS_STORAGE_KEY, defaultSettings);
@@ -174,6 +181,7 @@ export function SettingsProvider({ children }: SettingsProviderProps) {
         setActiveGradient,
         setAnimationStyle,
         setShowShadow,
+        setShowTimeCard,
         resetSettings,
       }}
     >

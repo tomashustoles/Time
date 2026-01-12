@@ -27,6 +27,7 @@ export interface Settings {
   activeGradient: 1 | 2;
   animationStyle: AnimationStyle;
   showShadow: boolean;
+  showTimeCard: boolean;
 }
 
 // Weather data
